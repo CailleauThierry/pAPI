@@ -2,7 +2,7 @@
 From: Thierry Cailleau on 11/14/2018 pAPI 1.3 based on Keycloak OAuth documentation available under:
 Carbonite Server Backup API - Monitoring v1.3 - Installation Guide.pdf
 #>
-
+#Requires -Version 5
 $url = 'https://sys3:8081/auth/realms/carbonite-monitoring/protocol/openid-connect/token'
 $headers = @{"Content-Type" = "application/x-www-form-urlencoded";"cache-control"="no-cache"}
 $body = "client_id=AdminUser&grant_type=client_credentials&client_secret=5f29c52d-4a61-47b0-8721-1508e8adc0d9&undefined="

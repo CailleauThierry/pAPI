@@ -1,7 +1,9 @@
 <#
 From: Thierry Cailleau on 11/14/2018 based on pAPI 1.3 swagger API documentation available under:
 https://Your_API_Server/monitoring/swaggerui/index > Agent > Expand Operations > Model
+On this hostname "sys3" https://sys3/monitoring/swaggerui/index
 #>
+#Requires -Version 5
 $token = (C:\Users\Administrator\Documents\WindowsPowerShell\Scripts\pAPI\Token.ps1)
 $url = 'https://sys3/monitoring/agents?$count=true'
 $headers = @{"Authorization"="Bearer $token";"Accept"="application/json;api-version=1"}
