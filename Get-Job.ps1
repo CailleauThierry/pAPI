@@ -1,11 +1,11 @@
 <#
 Get-Job.ps1 v 0.0.0.1 on 11/19/2018
-From: Thierry Cailleau requires on pAPI 1.3 swagger API documentation available under:
+From: Thierry Cailleau requires pAPI 1.3 . Its swagger API documentation is available under:
 https://Your_API_Server/monitoring/swaggerui/index > Job > Expand Operations > Model
 On this hostname "sys3" https://sys3/monitoring/swaggerui/index
 #>
 #Requires -Version 5
-$token = (C:\Users\Administrator\Documents\WindowsPowerShell\Scripts\pAPI\Token.ps1)
+$token = (C:\Users\Administrator\Documents\WindowsPowerShell\Scripts\pAPI\Get-Token.ps1)
 $url = 'https://sys3/monitoring/jobs?$count=true'
 $headers = @{"Authorization"="Bearer $token";"Accept"="application/json;api-version=1"}
 $reply = Invoke-RestMethod -Uri $url -Method GET -Headers $headers
@@ -15,19 +15,45 @@ $collection = $reply.value
 
 Write-Output "We found $count jobs"
 
-$collection | Where-Object {$_.Name -eq 'sys3'} | Format-Table -AutoSize
-$collection | Where-Object {$_.status -eq 'ok'} | Format-Table -AutoSize
+$collection | Where-Object {$_.name -eq 'PFC'} | Format-Table -AutoSize
+$collection | Where-Object {$_.agentId -eq '5efcd583-9fb3-42d1-8f69-4d5b07a60995'} | Format-Table -AutoSize
 
 <#
-PS C:\Users\Administrator\Documents\WindowsPowerShell\Try\pAPI> c:\Users\Administrator\Documents\WindowsPowerShell\Try\pAPI\Agent.ps1
-id                                   companyId                            name description version   operatingSystem             hostName status availability
---                                   ---------                            ---- ----------- -------   ---------------             -------- ------ ------------
-5efcd583-9fb3-42d1-8f69-4d5b07a60995 0556fdda-8d6c-4da7-b8e9-1169afa9c020 SYS3             8.60.9144 Windows Server 2012 R2 x64  SYS3     Ok     Online
+PS C:\Users\Administrator\Documents\WindowsPowerShell\Scripts\pAPI> c:\Users\Administrator\Documents\WindowsPowerShell\Scripts\pAPI\Get-Job.ps1
 
-id                                   companyId                            name description version   operatingSystem             hostName status availability
---                                   ---------                            ---- ----------- -------   ---------------             -------- ------ ------------
-5efcd583-9fb3-42d1-8f69-4d5b07a60995 0556fdda-8d6c-4da7-b8e9-1169afa9c020 SYS3             8.60.9144 Windows Server 2012 R2 x64  SYS3     Ok     Online
+
+We found 1 jobs
+
+id                                   agentId                              name description type      lastAttemptedBackupStatus lastAttemptedB
+                                                                                                                               ackupTimeUtc
+--                                   -------                              ---- ----------- ----      ------------------------- --------------
+0e6746e5-0361-47ea-b04e-f58be9c07cb8 5efcd583-9fb3-42d1-8f69-4d5b07a60995 PFC              LocalFile Overdue                   2018-11-10T...
+
+
+
+id                                   agentId                              name description type      lastAttemptedBackupStatus lastAttemptedB
+                                                                                                                               ackupTimeUtc
+--                                   -------                              ---- ----------- ----      ------------------------- --------------
+0e6746e5-0361-47ea-b04e-f58be9c07cb8 5efcd583-9fb3-42d1-8f69-4d5b07a60995 PFC              LocalFile Overdue                   2018-11-10T...
+PS C:\Users\Administrator\Documents\WindowsPowerShell\Scripts\pAPI> $collection
+
+
+id                                   : 0e6746e5-0361-47ea-b04e-f58be9c07cb8
+agentId                              : 5efcd583-9fb3-42d1-8f69-4d5b07a60995
+name                                 : PFC
+description                          :
+type                                 : LocalFile
+lastAttemptedBackupStatus            : Overdue
+lastAttemptedBackupTimeUtc           : 2018-11-10T18:34:34.8Z
+lastCompletedBackupTimeUtc           : 2018-11-10T18:34:34.8Z
+lastCompletedBackupOriginalSizeBytes : 22294
+vaultComputerId                      : 65b5eab3-a2a8-45ca-97af-77c9302a2142
+jobInfoInVaults                      : {@{vaultId=71dfc97b-8204-480f-ad39-b007c8c9b913; customerShortName=; customerLocation=; enabled=;
+                                       suspect=; usedPoolSize=; physicalPoolSize=; activeOperatigMode=; baseOperatingMode=;
+                                       restoreJobs=System.Object[]}}
 #>
+
+
 <# For the records documentation for for "get  /monitoring/jobs" on 11/14/2018 was:
 
 https://Your_API_Server/monitoring/swaggerui/index > Job> Expand Operations > Model i.e.:

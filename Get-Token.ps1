@@ -1,5 +1,6 @@
 <# 
-From: Thierry Cailleau on 11/14/2018 pAPI 1.3 based on Keycloak OAuth documentation available under:
+Get-Job.ps1 v 0.0.0.1 on 11/19/2018
+From: Thierry Cailleau  pAPI 1.3 installation includes Keycloak for OAuth2 Authetication. Documentation available under:
 Carbonite Server Backup API - Monitoring v1.3 - Installation Guide.pdf
 #>
 #Requires -Version 5

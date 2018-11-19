@@ -1,10 +1,11 @@
 <#
-From: Thierry Cailleau on 11/14/2018 based on pAPI 1.3 swagger API documentation available under:
+Get-Job.ps1 v 0.0.0.1 on 11/19/2018
+From: Thierry Cailleau brequires pAPI 1.3 . Its swagger API documentation is available under:
 https://Your_API_Server/monitoring/swaggerui/index > Agent > Expand Operations > Model
 On this hostname "sys3" https://sys3/monitoring/swaggerui/index
 #>
 #Requires -Version 5
-$token = (C:\Users\Administrator\Documents\WindowsPowerShell\Scripts\pAPI\Token.ps1)
+$token = (C:\Users\Administrator\Documents\WindowsPowerShell\Scripts\pAPI\Get-Token.ps1)
 $url = 'https://sys3/monitoring/agents?$count=true'
 $headers = @{"Authorization"="Bearer $token";"Accept"="application/json;api-version=1"}
 $reply = Invoke-RestMethod -Uri $url -Method GET -Headers $headers
