@@ -9,7 +9,7 @@ C:\Director\ReportingService>.\ReportingService.exe -cmdline -register -uri http
 Registered vault)
 #>
 #Requires -Version 5
-$token = (C:\Users\Administrator\Downloads\ObtainRegistrationToken\ObtainRegistrationToken.ps1)
+$token = (C:\Users\Administrator\Documents\WindowsPowerShell\Scripts\pAPI\Get-Token.ps1)
 $url = 'https://sys3/monitoring/vaults?$count=true'
 $headers = @{"Authorization"="Bearer $token";"Accept"="application/json;api-version=1"}
 $reply = Invoke-RestMethod -Uri $url -Method GET -Headers $headers
