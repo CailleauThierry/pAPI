@@ -12,4 +12,23 @@ $params = @{
   NotAfter = (Get-Date).AddYears(5)
   CertStoreLocation = 'Cert:\LocalMachine\My'
   KeyUsage = 'CertSign','CRLSign','DigitalSignature' #fixes invalid cert error
+  }
 $rootCA = New-SelfSignedCertificate @params
+
+#Step 2 - Create the server cert signed by the new root
+$params = @{
+  DnsName = "rs-2k16.corp.ssv.com"
+  Signer = $rootCA
+  KeyLength = 2048
+  KeyAlgorithm = 'RSA'
+  HashAlgorithm = 'SHA256'
+  KeyExportPolicy = 'Exportable'
+  NotAfter = (Get-date).AddYears(2)
+  CertStoreLocation = 'Cert:\LocalMachine\My'
+$vpnCert = New-SelfSignedCertificate @params
+#Specify the password for the server certificate
+$pwd = ConvertTo-SecureString -String '3Vlt1nc' -Force -AsPlainText
+#Create the directory and export the root certificate and server certificate as .pfx
+New-Item -ItemType Directory -Path c:\sslcert -Force
+Export-Certificate -Cert $rootCA -FilePath "C:\sslcert\rootCA.crt"
+Export-PfxCertificate -Cert $vpnCert -FilePath 'C:\sslcert\cert.pfx' -Password $pwd
