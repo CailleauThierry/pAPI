@@ -25,6 +25,7 @@ $params = @{
   KeyExportPolicy = 'Exportable'
   NotAfter = (Get-date).AddYears(2)
   CertStoreLocation = 'Cert:\LocalMachine\My'
+  }
 $vpnCert = New-SelfSignedCertificate @params
 #Specify the password for the server certificate
 $pwd = ConvertTo-SecureString -String '3Vlt1nc' -Force -AsPlainText
