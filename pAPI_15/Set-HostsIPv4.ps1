@@ -31,7 +31,7 @@
 # Find Where "hosts file" is located
 
 $A = Get-Item -Path HKLM:\SOFTWARE\Wow6432Node\EVault\InfoStage\Portal\
-$HostsDir = $env:SystemDrive\Windows\System32\Drivers\etc
+$HostsDir = "$env:SystemDrive\Windows\System32\Drivers\etc"
 $HostsExeConfigPath = $HostsDir + '\' + 'hosts'
 
 if (Test-Path $HostsExeConfigPath){
@@ -41,7 +41,7 @@ if (Test-Path $HostsExeConfigPath){
 	# Example of line 23:     <add key="Proxy.Agent.Listen.IpAddress" value="192.168.47.127" />
 	$OldLine = ($Hosts)[22]
 	# Finds everthing before and after 'value="' and capture the one before last result, here the full IP address 192.168.47.127
-	[string]$IPadd = ($Hosts)[22].Split('value="')[-2]
+	[string]$IPadd = ($Hosts)[22].Split(' ')[0]
 	# uses ipconfig lines (filetered to contain keyword IPv4) and get the last entry after ' : '
 	[string]$IPNow = (ipconfig | findstr IPv4).Split(' : ')[-1]
 	# replaces old IP by current IP in line 23
