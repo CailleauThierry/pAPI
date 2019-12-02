@@ -25,8 +25,7 @@
 	- Agent 8.71
 #>
 
-#Get-Service -Name AMPRedirectorService | Stop-Service
-#Get-Service -Name Hosts | Stop-Service
+Get-Service -Name KeyCloak | Stop-Service
 
 # Find Where "hosts file" is located
 
@@ -48,11 +47,9 @@ if (Test-Path $HostsExeConfigPath){
 	[string]$NewLine = ($Hosts)[22].Replace("$IPadd", "$IPNow")
 	# replaces line 23 in "hosts file" variable $Hosts then write the content of this to hosts file (-Force is to replace the whole file's content)
 	$Hosts.Replace("$OldLine", "$NewLine") | Out-File -FilePath $HostsExeConfigPath -Force
-	# Restart Hosts Service first
-#	Get-Service -Name Hosts | Start-Service
-	# Restart AMPRedirectorService Service second
-#	Get-Service -Name AMPRedirectorService | Start-Service
-	# tested to work with PS v3, fails with v2
+	# Restart KeyCloak Service first
+	Get-Service -Name KeyCloak |  Start-Service
+	# tested to work with PS v5.1 (pAPI Requirement)
 }
 else{
 	# Test if hosts file exists. If not bypasses the script and just writes an Output Error Message
