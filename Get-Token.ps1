@@ -1,40 +1,18 @@
 <# 
-Get-Job.ps1 v 0.0.0.1 on 11/19/2018
-From: Thierry Cailleau  pAPI 1.3 installation includes Keycloak for OAuth2 Authetication. Documentation available under:
-Carbonite Server Backup API - Monitoring v1.3 - Installation Guide.pdf
+Get-Token.ps1 v 0.0.0.2 on 11/19/2018
+From: Thierry Cailleau  pAPI 1.5 installation includes Keycloak for OAuth2 Authentication. Documentation available under:
+Carbonite Server Backup API Client v1.0 - User Guide.pdf
 #>
 #Requires -Version 5
 $url = 'https://sys3:8081/auth/realms/carbonite-monitoring/protocol/openid-connect/token'
 $headers = @{"Content-Type" = "application/x-www-form-urlencoded";"cache-control"="no-cache"}
-$body = "client_id=AdminUser&grant_type=client_credentials&client_secret=5f29c52d-4a61-47b0-8721-1508e8adc0d9&undefined="
+$body = "client_id=APIadmin&grant_type=client_credentials&client_secret=51bb1f0d-38eb-4287-9453-4e1b2179467b&undefined="
 $reply = Invoke-RestMethod -Uri $url -Method Post -Body $body -Headers $headers
 Write-Output $reply.'access_token'
 
 
 <#
-PS C:\Users\Administrator\Documents\WindowsPowerShell\Try\pAPI> c:\Users\Administrator\Documents\WindowsPowerShell\Try\pAPI\Token.ps1
-
-
-
-StatusCode        : 200
-StatusDescription : OK
-Content           : {"access_token":"eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJ0N3haRUZoYmpfMUFhUkMtOG9ydl9GM3RZVUhtNlpOdmFhNWNCOGI3NEwwIn0.eyJqdGkiO
-                    iI1ZjUyZTk1NC1kMzQ4LTQ2NDMtODEzYS1mYmRkMzBjNDJlZDEiLCJleHAiOjE...
-RawContent        : HTTP/1.1 200 OK
-                    Connection: keep-alive
-                    Content-Length: 2801
-                    Content-Type: application/json
-                    Date: Fri, 09 Nov 2018 23:10:13 GMT
-                    Set-Cookie: KC_RESTART=; Version=1; Expires=Thu, 01-Jan-1970 00:00:1...
-Forms             : {}
-Headers           : {[Connection, keep-alive], [Content-Length, 2801], [Content-Type, application/json], [Date, Fri, 09 Nov 2018 23:10:13 GMT]...}
-Images            : {}
-InputFields       : {}
-Links             : {}
-ParsedHtml        : mshtml.HTMLDocumentClass
-RawContentLength  : 2801
-
-
-
-PS C:\Users\Administrator\Documents\WindowsPowerShell\Try\pAPI> 
+PS C:\Users\Administrator\Documents\WindowsPowerShell\Scripts\pAPI> c:\Users\Administrator\Documents\WindowsPowerShell\Scripts\pAPI\Get-Token.ps1
+eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJaVUhPemZERVZGaGttaVBLa3RoczdrZnYtVnVsQnAyZWhtM0pKSlVDelNjIn0.eyJqdGkiOiIyMzA4MDQ1MS1hNjdiLTRmOWUtYWM1NC03MTgzMThlNzI1MGEiLCJleHAiOjE1ODc3NDU3NzAsIm5iZiI6MCwiaWF0IjoxNTg3NzQ1NDcwLCJpc3MiOiJodHRwczovL3N5czM6ODA4MS9hdXRoL3JlYWxtcy9DYXJib25pdGUtTW9uaXRvcmluZyIsImF1ZCI6IkFQSWFkbWluIiwic3ViIjoiZTBhMjY2NGEtMzFiNC00ZjE1LTgzNzQtZTIzODI5ZWFmYjQ5IiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiQVBJYWRtaW4iLCJhdXRoX3RpbWUiOjAsInNlc3Npb25fc3RhdGUiOiIzNDYwZDRkMi1jMWY4LTRlOTEtODgyMS0xN2ExYWM4YTRjZWIiLCJhY3IiOiIxIiwiYWxsb3dlZC1vcmlnaW5zIjpbXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbInVtYV9hdXRob3JpemF0aW9uIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiQVBJYWRtaW4iOnsicm9sZXMiOlsidW1hX3Byb3RlY3Rpb24iXX0sImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sImF1ZCI6InVybjpjYXJiOnNiOmFwaTptb25pdG9yaW5nIiwiY2xpZW50SWQiOiJBUElhZG1pbiIsImNsaWVudEhvc3QiOiIxOTIuMTY4LjAuMTE0IiwicHJlZmVycmVkX3VzZXJuYW1lIjoic2VydmljZS1hY2NvdW50LWFwaWFkbWluIiwiY2xpZW50QWRkcmVzcyI6IjE5Mi4xNjguMC4xMTQiLCJjYXJiOnNiOmFwaTptb25pdG9yaW5nOmFjY2Vzc190eXBlIjoiYWRtaW4iLCJlbWFpbCI6InNlcnZpY2UtYWNjb3VudC1hcGlhZG1pbkBwbGFjZWhvbGRlci5vcmcifQ.bWi_WhBm78ov4QEhOEBWBwN_iv1TUYWxsgQ6p9WyxaJ1EummegyK9_mI7Tra-SSrhpuejXiqb9P8fnoKemV_zpHtWFcYqEYDQkrLnTK3OzP0Qlz-Ua6LKHYoY8LC3Z39xFdh9UKL9ScVDp6P4KbLv_UCd9uyVnmV3q1_jXfPRJ8fgQVOjxy-bziqIn4-R5TOrVSLhkeQ6_Zokf4ibruxYMekzLwrBv7KvItXVIVet6Wt0SlrcEoJmiYDaV3nQ1ZH6xb4zg7WRYtW1ccQmWHrfueLPGVxYXAzQk_G949kACg5ZfQPdJjvs_OSPzco6uJzx1RsXlBqlbUqIjSJqVjJ2w
+PS C:\Users\Administrator\Documents\WindowsPowerShell\Scripts\pAPI>
 #>
