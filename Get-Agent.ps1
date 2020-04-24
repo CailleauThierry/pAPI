@@ -1,6 +1,6 @@
 <#
-Get-Job.ps1 v 0.0.0.1 on 11/19/2018
-From: Thierry Cailleau brequires pAPI 1.3 . Its swagger API documentation is available under:
+Get-Agent.ps1 v 0.0.0.2 on 04/24/2020
+From: Thierry Cailleau requires pAPI 1.5 . Its swagger API documentation is available under:
 https://Your_API_Server/monitoring/swaggerui/index > Agent > Expand Operations > Model
 On this hostname "sys3" https://sys3/monitoring/swaggerui/index
 #>
@@ -19,14 +19,21 @@ $collection | Where-Object {$_.Name -eq 'sys3'} | Format-Table -AutoSize
 $collection | Where-Object {$_.status -eq 'ok'} | Format-Table -AutoSize
 
 <#
-PS C:\Users\Administrator\Documents\WindowsPowerShell\Try\pAPI> c:\Users\Administrator\Documents\WindowsPowerShell\Try\pAPI\Agent.ps1
-id                                   companyId                            name description version   operatingSystem             hostName status availability
---                                   ---------                            ---- ----------- -------   ---------------             -------- ------ ------------
-5efcd583-9fb3-42d1-8f69-4d5b07a60995 0556fdda-8d6c-4da7-b8e9-1169afa9c020 SYS3             8.60.9144 Windows Server 2012 R2 x64  SYS3     Ok     Online
+PS C:\Users\Administrator\Documents\WindowsPowerShell\Scripts\pAPI> c:\Users\Administrator\Documents\WindowsPowerShell\Scripts\pAPI\Get-Agent.ps1
+We found 1 agents
 
-id                                   companyId                            name description version   operatingSystem             hostName status availability
---                                   ---------                            ---- ----------- -------   ---------------             -------- ------ ------------
-5efcd583-9fb3-42d1-8f69-4d5b07a60995 0556fdda-8d6c-4da7-b8e9-1169afa9c020 SYS3             8.60.9144 Windows Server 2012 R2 x64  SYS3     Ok     Online
+id                                   companyId                            name description version   operatingSystem             hostName agentType status
+--                                   ---------                            ---- ----------- -------   ---------------             -------- --------- ------
+9d7b62bd-88f0-4998-aa15-ade942b46d0d c0e01737-5d96-42f5-ad40-dc44ffbfc237 SYS3             8.72.1010 Windows Server 2012 R2 x64  SYS3     SERVER    Ok
+
+
+
+id                                   companyId                            name description version   operatingSystem             hostName agentType status
+--                                   ---------                            ---- ----------- -------   ---------------             -------- --------- ------
+9d7b62bd-88f0-4998-aa15-ade942b46d0d c0e01737-5d96-42f5-ad40-dc44ffbfc237 SYS3             8.72.1010 Windows Server 2012 R2 x64  SYS3     SERVER    Ok
+
+
+PS C:\Users\Administrator\Documents\WindowsPowerShell\Scripts\pAPI>
 #>
 <# For the records documentation for for "get  /monitoring/agents" on 11/14/2018 was:
 
@@ -34,7 +41,7 @@ https://Your_API_Server/monitoring/swaggerui/index > Agent > Expand Operations >
 ODataListResponse[Agent] {
 @odata.nextLink (string, optional),
 
-@odata.count (integer, optional): [format: int32]
+@odata.count (integer, optional): [format: int32] 
  ,
 
 @odata.context (string, optional),
@@ -62,16 +69,19 @@ operatingSystem (string, optional): Operating system of the computer where the a
 hostName (string, optional): Name of the computer where the agent is installed
  ,
 
+agentType (string, optional): Agent type. Possible values include: CLUSTER_HOST - Agent on a node in a Windows cluster; DESKTOP - Agent on a Windows desktop operating system; HYPERV_COORDINATOR - Agent that protects VMs in a Microsoft Hyper-V cluster or standalone host; SBE - - Small Business Edition agent. This agent type is no longer supported; SERVER - Agent on a server operating system (e.g., Windows, Linux or UNIX); VIRTUAL_SERVER - Virtual server agent for a Windows cluster; VSPHERE_APPLIANCE - Agent that protects VMs in a VMware vSphere environment
+ ,
+
 status (string, optional): Agent status. Possible values are: Unconfigured - No jobs have been created for the agent; Errors - One or more of the agent's jobs failed or completed with errors; Warnings - One or more of the agent's jobs completed with warnings; OK - The agent's job or jobs ran without errors or warnings[Unconfigured, Errors, Warnings, Ok]
  ,
 
-availability (string, optional): Agent availability. Possible values are: Online - The agent is in contact with Portal; Offline - The agent has not contacted Portal for more than 90 seconds; Reboot - The agent is in contact with Portal. There is a pending reboot on the agent computer; Deleted - The agent has been marked as deleted in Portal[Online, Offline, Reboot, Deleted]
+availability (string, optional): Agent availability. Possible values are: Online - The agent is in contact with Portal; Offline - The agent has not contacted Portal for more than 90 seconds; Reboot - The agent is in contact with Portal. There is a pending reboot on the agent computer; Deleted - The agent has been deleted in Portal but its data might be available in one or more vaults; This can only happen to Hyper-V agents. For more information, search for “deleted agents” in the knowledge base[Online, Offline, Reboot, Deleted]
  ,
 
-vaultRegistrations (Array[VaultRegistration], optional): The agent's vault registrations. For more information, see VaultRegistration below
+vaultRegistrations (Array[VaultRegistration], optional): The agent's vault registrations. For more information, see VaultComputer below
  ,
 
-bandwidthThrottlingSettings (AgentBandwidthThrottlingSettings, optional): Agent's bandwidth throttling settings. For more information, see AgentBandwidthThrottlingSettings below
+bandwidthThrottlingSettings (AgentBandwidthThrottlingSettings, optional): The agent's bandwidth throttling settings. For more information, see AgentBandwidthThrottlingSettings below
  ,
 
 numberOfJobs (integer, optional): [format: int32] Number of backup jobs on the agent
@@ -83,17 +93,17 @@ deferredJobStatus (DeferredJobStatus, optional): Deferred backup jobs. When defe
 schedulerEnabled (boolean, optional): If true, the agent scheduler is enabled
  ,
 
-lastPresentUtc (string, optional): [format: date-time] Last time the agent contacted Portal
+lastPresentUtc (string, optional): [format: date-time] Last time in UTC the agent contacted Portal
  ,
 
 agentPluginSettings (Array[AgentPluginSetting], optional): Plugins installed with the agent. For more information, see pluginName below
-
+ 
 }VaultRegistration {
 vaultComputerId (string, optional): [format: uuid] Unique identifier (GUID) in the vault for the computer where the agent is installed. This GUID is automatically generated when an agent registers to a vault. If the agent did not upload the vaultComputerId to Portal, the value is null. This can occur for some older agent versions
  ,
 
-agentInfoInVaults (Array[VaultComputer], optional): Agent information from associated vaults
-
+agentInfoInVaults (Array[VaultComputer], optional): Agent information from associated vaults. For more information, see VaultComputer below
+ 
 }AgentBandwidthThrottlingSettings {
 daysOfWeek (string, optional): Days of the week when bandwidth is limited
  ,
@@ -101,17 +111,17 @@ daysOfWeek (string, optional): Days of the week when bandwidth is limited
 enabled (boolean, optional): If true, bandwidth throttling is enabled on specified days and times
  ,
 
-startTime (string, optional): Start time of bandwidth throttling. The time is the local time of the computer where the agent is installed
+startTime (string, optional): Start time of bandwidth throttling, in the local time of the computer where the agent is installed
  ,
 
-endTime (string, optional): End time of bandwidth throttling. The time is the local time of the computer where the agent is installed
+endTime (string, optional): End time of bandwidth throttling, in the local time of the computer where the agent is installed
  ,
 
 maxBandwidthBps (integer, optional): [format: int32] Maximum bandwidth in bits per second when bandwidth throttling is enabled
  ,
 
-createdOnUtc (string, optional): [format: date-time] Date and time when the bandwidth throttling settings were created
-
+createdOnUtc (string, optional): [format: date-time] Date and time in UTC when the bandwidth throttling settings were created
+ 
 }DeferredJobStatus {
 numberOfDeferredJobs (integer, optional): [format: int32] Number of agent jobs that were deferred (i.e., partially backed up)
  ,
@@ -123,10 +133,10 @@ numberOfDeferredJobsWithErrors (integer, optional): [format: int32] Number of ag
  ,
 
 numberOfDeferredJobsWithWarnings (integer, optional): [format: int32] Number of agent jobs that were deferred with warnings
-
+ 
 }AgentPluginSetting {
 pluginName (string, optional): Plugin installed with the agent
-
+ 
 }VaultComputer {
 vaultId (string, optional): [format: uuid] Unique identifier (GUID) for a vault where the computer is registered with the specified VaultComputerId
  ,
@@ -155,9 +165,9 @@ agentOsType (string, optional): Operating system type of the computer in the vau
 agentOsVersion (string, optional): Operating system version of the computer in the vault
  ,
 
-agentType (string, optional): Type of agent installed on the computer
+agentLicenseType (string, optional): License type that the agent is claiming on the vault
  ,
 
 agentVersion (string, optional): Version of the agent installed on the computer
-
-} #>
+ 
+}  #>
