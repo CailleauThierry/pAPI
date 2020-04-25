@@ -35,7 +35,7 @@ id                                   companyId                            name d
 
 PS C:\Users\Administrator\Documents\WindowsPowerShell\Scripts\pAPI>
 #>
-<# For the records documentation for for "get  /monitoring/agents" on 11/14/2018 was:
+<# For the records documentation for for "get  /monitoring/agents" on 04/25/2020 was:
 
 https://Your_API_Server/monitoring/swaggerui/index > Agent > Expand Operations > Model i.e.:
 ODataListResponse[Agent] {
@@ -170,4 +170,4 @@ agentLicenseType (string, optional): License type that the agent is claiming on 
 
 agentVersion (string, optional): Version of the agent installed on the computer
  
-}  #>
+} #>

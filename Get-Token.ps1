@@ -1,5 +1,5 @@
 <# 
-Get-Token.ps1 v 0.0.0.2 on 11/19/2018
+Get-Token.ps1 v 0.0.0.2 on 04/25/2018
 From: Thierry Cailleau  pAPI 1.5 installation includes Keycloak for OAuth2 Authentication. Documentation available under:
 Carbonite Server Backup API Client v1.0 - User Guide.pdf
 #>
