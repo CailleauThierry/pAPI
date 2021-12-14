@@ -2,61 +2,147 @@
 Get-Vault.ps1 v 0.0.0.1 on 11/19/2018
 From: Thierry Cailleau requires pAPI 1.3 . Its swagger API documentation is available under:
 https://Your_API_Server/monitoring/swaggerui/index > Vault > Expand Operations > Model
-On this hostname "sys3" https://sys3/monitoring/swaggerui/index
-Assumes you have registered the Vault to pAPI (dunring 8.40 upgrade or after from the cmd.exe as per Carbonite Director v8.4 - Install Guide.pdf:
+On this hostname "papi16.test.local" https://papi16.test.local/monitoring/swaggerui/index
+Assumes you have registered the Vault to pAPI (during 8.40 upgrade or after from the cmd.exe as per Carbonite Director v8.4 - Install Guide.pdf:
 
-C:\Director\ReportingService>.\ReportingService.exe -cmdline -register -uri https://sys3:8080 -id Carbonite-Registration-Client -secret fHYQA1byZ/X9Vb0psP62TLDA1VO38I1k5BOjJSbDkcNb
+C:\Director\ReportingService>.\ReportingService.exe -cmdline -register -uri https://papi16.test.local:8080 -id Carbonite-Registration-Client -secret pEa4e4rjEfpmGLbZVqQnejVvfpa1o+s+cSeDIfTS9McH
+
 Registered vault)
 #>
 #Requires -Version 5
 $token = (C:\Users\Administrator\Documents\WindowsPowerShell\Scripts\pAPI\Get-Token.ps1)
-$url = 'https://sys3/monitoring/vaults?$count=true'
+$url = 'https://papi16.test.local/monitoring/vaults?$count=true'
 $headers = @{"Authorization"="Bearer $token";"Accept"="application/json;api-version=1"}
 $reply = Invoke-RestMethod -Uri $url -Method GET -Headers $headers
 
 $count = $reply.'@odata.count'
 $collection = $reply.value
 
+$reply | ConvertTo-Json -Depth 4 | Out-File -FilePath C:\Users\Administrator\Documents\WindowsPowerShell\Scripts\pAPI\Get-Vault_results.ps1.json
+
 Write-Output "We found $count vaults"
 
-$collection | Where-Object {$_.agentName -eq 'sys3'} | Format-Table -AutoSize
-$collection | Where-Object {$_.jobId -eq '2'} | Format-Table -AutoSize
+$collection | Where-Object {$_.vaultNodesInfo.hostname -eq 'ev1'} | Format-Table -AutoSize
+$collection | Where-Object {$_.vaultLicenseInfo.status -eq 'Activated'} | Format-Table -AutoSize
 
 <#
-PS C:\Users\Administrator\Documents\WindowsPowerShell\Scripts\pAPI> c:\Users\Administrator\Documents\WindowsPowerShell\Scripts\pAPI\Get-Job.ps1
-
-
+PS C:\Users\Administrator\Documents\WindowsPowerShell\Scripts\pAPI> c:\Users\Administrator\Documents\WindowsPowerShell\Scripts\pAPI\Get-Vault.ps1
 We found 1 vaults
 
-id                                   agentId                              name description type      lastAttemptedBackupStatus lastAttemptedB
-                                                                                                                               ackupTimeUtc
---                                   -------                              ---- ----------- ----      ------------------------- --------------
-0e6746e5-0361-47ea-b04e-f58be9c07cb8 5efcd583-9fb3-42d1-8f69-4d5b07a60995 PFC              LocalFile Overdue                   2018-11-10T...
+id                                   vaultType    isCluster maintenanceStatus replicationTarget replication1To1Enabled replicationNTo1Enabled databaseStatus numReplicationSessions numReplica
+                                                                                                                                                                                    tionEvents
+--                                   ---------    --------- ----------------- ----------------- ---------------------- ---------------------- -------------- ---------------------- ----------
+a590ff80-345d-430e-bd55-f25b5f5fcb7d {Standalone}     False Enabled                                               True                   True Running                             0          0
 
 
 
-id                                   agentId                              name description type      lastAttemptedBackupStatus lastAttemptedB
-                                                                                                                               ackupTimeUtc
---                                   -------                              ---- ----------- ----      ------------------------- --------------
-0e6746e5-0361-47ea-b04e-f58be9c07cb8 5efcd583-9fb3-42d1-8f69-4d5b07a60995 PFC              LocalFile Overdue                   2018-11-10T...
-PS C:\Users\Administrator\Documents\WindowsPowerShell\Scripts\pAPI> $collection
+id                                   vaultType    isCluster maintenanceStatus replicationTarget replication1To1Enabled replicationNTo1Enabled databaseStatus numReplicationSessions numReplica
+                                                                                                                                                                                    tionEvents
+--                                   ---------    --------- ----------------- ----------------- ---------------------- ---------------------- -------------- ---------------------- ----------
+a590ff80-345d-430e-bd55-f25b5f5fcb7d {Standalone}     False Enabled                                               True                   True Running                             0          0
 
 
-id                                   : 0e6746e5-0361-47ea-b04e-f58be9c07cb8
-agentId                              : 5efcd583-9fb3-42d1-8f69-4d5b07a60995
-name                                 : PFC
-description                          :
-type                                 : LocalFile
-lastAttemptedBackupStatus            : Overdue
-lastAttemptedBackupTimeUtc           : 2018-11-10T18:34:34.8Z
-lastCompletedBackupTimeUtc           : 2018-11-10T18:34:34.8Z
-lastCompletedBackupOriginalSizeBytes : 22294
-vaultComputerId                      : 65b5eab3-a2a8-45ca-97af-77c9302a2142
-jobInfoInVaults                      : {@{vaultId=71dfc97b-8204-480f-ad39-b007c8c9b913; customerShortName=; customerLocation=; enabled=;
-                                       suspect=; usedPoolSize=; physicalPoolSize=; activeOperatigMode=; baseOperatingMode=;
-                                       restorevaults=System.Object[]}}
+PS C:\Users\Administrator\Documents\WindowsPowerShell\Scripts\pAPI>
 #>
+<# 
 
+C:\Users\Administrator\Documents\WindowsPowerShell\Scripts\pAPI\Get-Vault_results.ps1.json:
+{
+    "@odata.context":  "https://papi16.test.local/monitoring/$metadata#vaults",
+    "@odata.count":  1,
+    "value":  [
+                  {
+                      "id":  "a590ff80-345d-430e-bd55-f25b5f5fcb7d",
+                      "vaultType":  [
+                                        "Standalone"
+                                    ],
+                      "isCluster":  false,
+                      "maintenanceStatus":  "Enabled",
+                      "replicationTarget":  null,
+                      "replication1To1Enabled":  true,
+                      "replicationNTo1Enabled":  true,
+                      "databaseStatus":  "Running",
+                      "numReplicationSessions":  0,
+                      "numReplicationEvents":  0,
+                      "heartbeatFrequencyInMillisecond":  900000.0,
+                      "lastHeartbeat":  "2021-12-14T22:08:43Z",
+                      "vaultNodesInfo":  [
+                                             {
+                                                 "hostname":  "ev1",
+                                                 "externalAddress":  "ev1",
+                                                 "internalAddress":  "ev1",
+                                                 "operatingSystem":  "Windows Server 2012 R2, 64-bit",
+                                                 "state":  "Online",
+                                                 "softwareVersion":  "8.51.1540",
+                                                 "softwareBuildDate":  "2020-08-27T21:37:40Z",
+                                                 "primaryStorageAffinity":  "None",
+                                                 "status":  "Healthy",
+                                                 "services":  "     "
+                                             }
+                                         ],
+                      "satellites":  [
+
+                                     ],
+                      "customers":  [
+                                        {
+                                            "shortName":  "THC01",
+                                            "customerInstanceName":  "THC",
+                                            "customerLocations":  ""
+                                        }
+                                    ],
+                      "storageLocations":  [
+                                               {
+                                                   "path":  "C:\\Vault959114148\\",
+                                                   "type":  "Local",
+                                                   "storageGroup":  "SG01",
+                                                   "storageGroupType":  "Online",
+                                                   "readOnly":  false,
+                                                   "currentUsageInBytes":  48321388544,
+                                                   "freeSpaceInBytes":  15734018048
+                                               }
+                                           ],
+                      "vaultLicenseInfo":  {
+                                               "status":  "Activated",
+                                               "expiryDate":  "2022-01-13T00:00:00Z",
+                                               "usingPerCustomerQuotas":  false,
+                                               "licenseUsages":  [
+                                                                     "@{type=ArchiveAgent; usage=0; quota=-1}",
+                                                                     "@{type=Cluster; usage=0; quota=-1}",
+                                                                     "@{type=DesktopAgent; usage=0; quota=-1}",
+                                                                     "@{type=Director; usage=1; quota=1}",
+                                                                     "@{type=DistributedVMWareAgentForEnterprise; usage=0; quota=0}",
+                                                                     "@{type=EvaultSystemRestore; usage=0; quota=-1}",
+                                                                     "@{type=ExchangeDr; usage=0; quota=-1}",
+                                                                     "@{type=ExchangeMapi; usage=0; quota=-1}",
+                                                                     "@{type=GranularRestoreForMsExchangeAndSql; usage=1; quota=1}",
+                                                                     "@{type=ImageBackup; usage=0; quota=-1}",
+                                                                     "@{type=ISeriesAgent; usage=0; quota=-1}",
+                                                                     "@{type=MicrosoftDpm; usage=0; quota=-1}",
+                                                                     "@{type=Oracle; usage=1; quota=-1}",
+                                                                     "@{type=Otm; usage=0; quota=-1}",
+                                                                     "@{type=ProtectedStorage; usage=0; quota=1024}",
+                                                                     "@{type=ReplicationOneToOne; usage=1; quota=1}",
+                                                                     "@{type=ReportExtractor; usage=1; quota=1}",
+                                                                     "@{type=SbeAgent; usage=0; quota=-1}",
+                                                                     "@{type=ServerAgent; usage=2; quota=-1}",
+                                                                     "@{type=SharepointPlugin; usage=0; quota=-1}",
+                                                                     "@{type=SqlServer; usage=0; quota=-1}",
+                                                                     "@{type=VMWareConsolePlugin; usage=0; quota=-1}",
+                                                                     "@{type=VMWareEsxCluster; usage=0; quota=-1}"
+                                                                 ]
+                                           },
+                      "maintenanceHostProgress":  {
+                                                      "runningJobs":  0,
+                                                      "waitingJobs":  0,
+                                                      "pendingJobs":  0
+                                                  },
+                      "replicationSessions":  [
+
+                                              ]
+                  }
+              ]
+}
+#>
 
 <# For the records documentation for for "get  /monitoring/vaults" on 11/14/2018 was:
 
