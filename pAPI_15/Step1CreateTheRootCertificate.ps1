@@ -5,7 +5,7 @@
 #Note: the machine using a login with administrative rights and enroll for the certificate again. From <https://knowledge.digicert.com/solution/SO5850.html>
 #Step 1 - Create the root certificate
 $params = @{
-  DnsName = "My Root CA"
+  DnsName = "MyRootCA"
   KeyLength = 2048
   KeyAlgorithm = 'RSA'
   HashAlgorithm = 'SHA256'
@@ -18,7 +18,7 @@ $rootCA = New-SelfSignedCertificate @params
 
 #Step 2 - Create the server cert signed by the new root
 $params = @{
-  DnsName = "SRVpAPI.yourdomain.com"
+  DnsName = "PAPI16.test.local"
   Signer = $rootCA
   KeyLength = 2048
   KeyAlgorithm = 'RSA'
