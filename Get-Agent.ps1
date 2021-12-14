@@ -6,7 +6,7 @@ On this hostname "sys3" https://sys3/monitoring/swaggerui/index
 #>
 #Requires -Version 5
 $token = (C:\Users\Administrator\Documents\WindowsPowerShell\Scripts\pAPI\Get-Token.ps1)
-$url = 'https://papi16.test.local:8081/monitoring/agents?$count=true'
+$url = 'https://papi16.test.local/monitoring/agents?$count=true'
 $headers = @{"Authorization"="Bearer $token";"Accept"="application/json;api-version=1"}
 $reply = Invoke-RestMethod -Uri $url -Method GET -Headers $headers
 
@@ -20,17 +20,17 @@ $collection | Where-Object {$_.availability -eq 'offline'} | Format-Table -AutoS
 
 <#
 PS C:\Users\Administrator\Documents\WindowsPowerShell\Scripts\pAPI> c:\Users\Administrator\Documents\WindowsPowerShell\Scripts\pAPI\Get-Agent.ps1
-We found 1 agents
+We found 2 agents
 
-id                                   companyId                            name description version   operatingSystem             hostName agentType status
---                                   ---------                            ---- ----------- -------   ---------------             -------- --------- ------
-9d7b62bd-88f0-4998-aa15-ade942b46d0d c0e01737-5d96-42f5-ad40-dc44ffbfc237 SYS3             8.72.1010 Windows Server 2012 R2 x64  SYS3     SERVER    Ok
+id                                   companyId                            name description version   operatingSystem             hostName agentType status availability
+--                                   ---------                            ---- ----------- -------   ---------------             -------- --------- ------ ------------
+a1dbed79-3886-4db5-9b0c-a2d0416b7e34 6a7ddad3-a15b-462e-9423-9110a0c93ad9 EV1              8.72.1010 Windows Server 2012 R2 x64  EV1      SERVER    Errors Online
 
 
 
-id                                   companyId                            name description version   operatingSystem             hostName agentType status
---                                   ---------                            ---- ----------- -------   ---------------             -------- --------- ------
-9d7b62bd-88f0-4998-aa15-ade942b46d0d c0e01737-5d96-42f5-ad40-dc44ffbfc237 SYS3             8.72.1010 Windows Server 2012 R2 x64  SYS3     SERVER    Ok
+id                                   companyId                            name  description version   operatingSystem          hostName agentType status availability
+--                                   ---------                            ----  ----------- -------   ---------------          -------- --------- ------ ------------
+9ca73a73-1842-40d7-b9cd-6f5b83c3605e 6a7ddad3-a15b-462e-9423-9110a0c93ad9 ORA16             9.00.1012 Windows Server 2016 x64  ORA16    SERVER    Errors Offline
 
 
 PS C:\Users\Administrator\Documents\WindowsPowerShell\Scripts\pAPI>
