@@ -6,7 +6,7 @@ On this hostname "sys3" https://sys3/monitoring/swaggerui/index
 #>
 #Requires -Version 5
 $token = (C:\Users\Administrator\Documents\WindowsPowerShell\Scripts\pAPI\Get-Token.ps1)
-$url = 'https://sys3/monitoring/agents?$count=true'
+$url = 'https://papi16.test.local:8081/monitoring/agents?$count=true'
 $headers = @{"Authorization"="Bearer $token";"Accept"="application/json;api-version=1"}
 $reply = Invoke-RestMethod -Uri $url -Method GET -Headers $headers
 
@@ -15,8 +15,8 @@ $collection = $reply.value
 
 Write-Output "We found $count agents"
 
-$collection | Where-Object {$_.Name -eq 'sys3'} | Format-Table -AutoSize
-$collection | Where-Object {$_.status -eq 'ok'} | Format-Table -AutoSize
+$collection | Where-Object {$_.Name -eq 'ev1'} | Format-Table -AutoSize
+$collection | Where-Object {$_.availability -eq 'offline'} | Format-Table -AutoSize
 
 <#
 PS C:\Users\Administrator\Documents\WindowsPowerShell\Scripts\pAPI> c:\Users\Administrator\Documents\WindowsPowerShell\Scripts\pAPI\Get-Agent.ps1
