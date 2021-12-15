@@ -2,7 +2,7 @@
 Get-Agent.ps1 v 0.0.0.2 on 04/24/2020
 From: Thierry Cailleau requires pAPI 1.5 . Its swagger API documentation is available under:
 https://Your_API_Server/monitoring/swaggerui/index > Agent > Expand Operations > Model
-On this hostname "sys3" https://sys3/monitoring/swaggerui/index
+On this hostname "papi16.test.local" https://papi16.test.local/monitoring/swaggerui/index
 #>
 #Requires -Version 5
 $token = (C:\Users\Administrator\Documents\WindowsPowerShell\Scripts\pAPI\Get-Token.ps1)
