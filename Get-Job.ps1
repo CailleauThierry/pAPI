@@ -1,12 +1,12 @@
 <#
-Get-Job.ps1 v 0.0.0.1 on 11/19/2018
-From: Thierry Cailleau requires pAPI 1.3 . Its swagger API documentation is available under:
+Get-Job.ps1 v 0.0.0.2 on 12/20/2021
+From: Thierry Cailleau requires pAPI 1.5 . Its swagger API documentation is available under:
 https://Your_API_Server/monitoring/swaggerui/index > Job > Expand Operations > Model
-On this hostname "sys3" https://sys3/monitoring/swaggerui/index
+On this hostname "papi16" https://papi16.test.local/monitoring/swaggerui/index
 #>
 #Requires -Version 5
 $token = (C:\Users\Administrator\Documents\WindowsPowerShell\Scripts\pAPI\Get-Token.ps1)
-$url = 'https://sys3/monitoring/jobs?$count=true'
+$url = 'https://papi16.test.local/monitoring/jobs?$count=true'
 $headers = @{"Authorization"="Bearer $token";"Accept"="application/json;api-version=1"}
 $reply = Invoke-RestMethod -Uri $url -Method GET -Headers $headers
 
@@ -15,42 +15,28 @@ $collection = $reply.value
 
 Write-Output "We found $count jobs"
 
-$collection | Where-Object {$_.name -eq 'PFC'} | Format-Table -AutoSize
-$collection | Where-Object {$_.agentId -eq '5efcd583-9fb3-42d1-8f69-4d5b07a60995'} | Format-Table -AutoSize
+$collection | Where-Object {$_.name -eq 'OraBackup'} | Format-Table -AutoSize
+$collection | Where-Object {$_.agentId -eq 'a1dbed79-3886-4db5-9b0c-a2d0416b7e34'} | Format-Table -AutoSize
 
 <#
 PS C:\Users\Administrator\Documents\WindowsPowerShell\Scripts\pAPI> c:\Users\Administrator\Documents\WindowsPowerShell\Scripts\pAPI\Get-Job.ps1
+We found 2 jobs
+
+id                                   agentId                              name      description type   lastAttemptedBackupStatus lastAtt
+                                                                                                                                 emptedB
+                                                                                                                                 ackupTi
+                                                                                                                                 meUtc
+--                                   -------                              ----      ----------- ----   ------------------------- -------
+4f61e4de-50f2-4229-a60f-757991474f81 9ca73a73-1842-40d7-b9cd-6f5b83c3605e OraBackup             Oracle CompletedWithErrors       2021...
 
 
-We found 1 jobs
 
-id                                   agentId                              name description type      lastAttemptedBackupStatus lastAttemptedB
-                                                                                                                               ackupTimeUtc
---                                   -------                              ---- ----------- ----      ------------------------- --------------
-0e6746e5-0361-47ea-b04e-f58be9c07cb8 5efcd583-9fb3-42d1-8f69-4d5b07a60995 PFC              LocalFile Overdue                   2018-11-10T...
+id                                   agentId                              name           description type      lastAttemptedBackupStatus
+--                                   -------                              ----           ----------- ----      -------------------------
+493e46ef-a9e2-42b6-8382-2e95e5ae6a92 a1dbed79-3886-4db5-9b0c-a2d0416b7e34 VaultWorkspace             LocalFile Overdue
 
 
-
-id                                   agentId                              name description type      lastAttemptedBackupStatus lastAttemptedB
-                                                                                                                               ackupTimeUtc
---                                   -------                              ---- ----------- ----      ------------------------- --------------
-0e6746e5-0361-47ea-b04e-f58be9c07cb8 5efcd583-9fb3-42d1-8f69-4d5b07a60995 PFC              LocalFile Overdue                   2018-11-10T...
-PS C:\Users\Administrator\Documents\WindowsPowerShell\Scripts\pAPI> $collection
-
-
-id                                   : 0e6746e5-0361-47ea-b04e-f58be9c07cb8
-agentId                              : 5efcd583-9fb3-42d1-8f69-4d5b07a60995
-name                                 : PFC
-description                          :
-type                                 : LocalFile
-lastAttemptedBackupStatus            : Overdue
-lastAttemptedBackupTimeUtc           : 2018-11-10T18:34:34.8Z
-lastCompletedBackupTimeUtc           : 2018-11-10T18:34:34.8Z
-lastCompletedBackupOriginalSizeBytes : 22294
-vaultComputerId                      : 65b5eab3-a2a8-45ca-97af-77c9302a2142
-jobInfoInVaults                      : {@{vaultId=71dfc97b-8204-480f-ad39-b007c8c9b913; customerShortName=; customerLocation=; enabled=;
-                                       suspect=; usedPoolSize=; physicalPoolSize=; activeOperatigMode=; baseOperatingMode=;
-                                       restoreJobs=System.Object[]}}
+PS C:\Users\Administrator\Documents\WindowsPowerShell\Scripts\pAPI>
 #>
 
 

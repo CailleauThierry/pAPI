@@ -1,8 +1,8 @@
 <#
-Get-Safeset.ps1 v 0.0.0.1 on 11/19/2018
-From: Thierry Cailleau requires pAPI 1.3 . Its swagger API documentation is available under:
+Get-Safeset.ps1 v 0.0.0.2 on 12/20/2021
+From: Thierry Cailleau requires pAPI 1.5 . Its swagger API documentation is available under:
 https://Your_API_Server/monitoring/swaggerui/index > Safeset > Expand Operations > Model
-On this hostname "sys3" https://sys3/monitoring/swaggerui/index
+On this hostname "papi16" https://papi16.test.local/monitoring/swaggerui/index
 Assumes you have registered the Vault to pAPI (dunring 8.40 upgrade or after from the cmd.exe as per Carbonite Director v8.4 - Install Guide.pdf:
 
 C:\Director\ReportingService>.\ReportingService.exe -cmdline -register -uri https://sys3:8080 -id Carbonite-Registration-Client -secret fHYQA1byZ/X9Vb0psP62TLDA1VO38I1k5BOjJSbDkcNb
@@ -10,7 +10,7 @@ Registered vault)
 #>
 #Requires -Version 5
 $token = (C:\Users\Administrator\Documents\WindowsPowerShell\Scripts\pAPI\Get-Token.ps1)
-$url = 'https://sys3/monitoring/safesets?$count=true'
+$url = 'https://papi16.test.local/monitoring/safesets?$count=true'
 $headers = @{"Authorization"="Bearer $token";"Accept"="application/json;api-version=1"}
 $reply = Invoke-RestMethod -Uri $url -Method GET -Headers $headers
 
@@ -19,42 +19,52 @@ $collection = $reply.value
 
 Write-Output "We found $count safesets"
 
-$collection | Where-Object {$_.agentName -eq 'sys3'} | Format-Table -AutoSize
-$collection | Where-Object {$_.jobId -eq '2'} | Format-Table -AutoSize
+$collection | Where-Object {$_.agentName -eq 'EV1'} | Format-Table -AutoSize
+$collection | Where-Object {$_.jobId -eq '4f61e4de-50f2-4229-a60f-757991474f81'} | Format-Table -AutoSize
 
 <#
-PS C:\Users\Administrator\Documents\WindowsPowerShell\Scripts\pAPI> c:\Users\Administrator\Documents\WindowsPowerShell\Scripts\pAPI\Get-Job.ps1
+PS C:\Users\Administrator\Documents\WindowsPowerShell\Scripts\pAPI> c:\Users\Administrator\Documents\WindowsPowerShell\Scripts\pAPI\Get-SafeSet.ps1
+We found 29 safesets
+
+vaultId                              jobId                                safesetNumber agentId                              agentName vaultComputerId                      customerShortName customerLocation serialNumber parentSafesetNumber
+-------                              -----                                ------------- -------                              --------- ---------------                      ----------------- ---------------- ------------ -------------------
+a590ff80-345d-430e-bd55-f25b5f5fcb7d 493e46ef-a9e2-42b6-8382-2e95e5ae6a92             1 a1dbed79-3886-4db5-9b0c-a2d0416b7e34 EV1       577e2916-6124-412b-bc89-bdf3c3eaa24c THC01             DenBosch           4159309955                   0
+a590ff80-345d-430e-bd55-f25b5f5fcb7d 493e46ef-a9e2-42b6-8382-2e95e5ae6a92             2 a1dbed79-3886-4db5-9b0c-a2d0416b7e34 EV1       577e2916-6124-412b-bc89-bdf3c3eaa24c THC01             DenBosch           2355365693                   0
+a590ff80-345d-430e-bd55-f25b5f5fcb7d 493e46ef-a9e2-42b6-8382-2e95e5ae6a92             3 a1dbed79-3886-4db5-9b0c-a2d0416b7e34 EV1       577e2916-6124-412b-bc89-bdf3c3eaa24c THC01             DenBosch           2192810929                   2
+a590ff80-345d-430e-bd55-f25b5f5fcb7d 493e46ef-a9e2-42b6-8382-2e95e5ae6a92             4 a1dbed79-3886-4db5-9b0c-a2d0416b7e34 EV1       577e2916-6124-412b-bc89-bdf3c3eaa24c THC01             DenBosch           2245529755                   3
+a590ff80-345d-430e-bd55-f25b5f5fcb7d 493e46ef-a9e2-42b6-8382-2e95e5ae6a92             5 a1dbed79-3886-4db5-9b0c-a2d0416b7e34 EV1       577e2916-6124-412b-bc89-bdf3c3eaa24c THC01             DenBosch           2255352016                   4
+a590ff80-345d-430e-bd55-f25b5f5fcb7d 493e46ef-a9e2-42b6-8382-2e95e5ae6a92             6 a1dbed79-3886-4db5-9b0c-a2d0416b7e34 EV1       577e2916-6124-412b-bc89-bdf3c3eaa24c THC01             DenBosch           2276905046                   5
+a590ff80-345d-430e-bd55-f25b5f5fcb7d 493e46ef-a9e2-42b6-8382-2e95e5ae6a92             7 a1dbed79-3886-4db5-9b0c-a2d0416b7e34 EV1       577e2916-6124-412b-bc89-bdf3c3eaa24c THC01             DenBosch           2270923223                   6
+a590ff80-345d-430e-bd55-f25b5f5fcb7d 493e46ef-a9e2-42b6-8382-2e95e5ae6a92             8 a1dbed79-3886-4db5-9b0c-a2d0416b7e34 EV1       577e2916-6124-412b-bc89-bdf3c3eaa24c THC01             DenBosch           2267996901                   7
+a590ff80-345d-430e-bd55-f25b5f5fcb7d 493e46ef-a9e2-42b6-8382-2e95e5ae6a92             9 a1dbed79-3886-4db5-9b0c-a2d0416b7e34 EV1       577e2916-6124-412b-bc89-bdf3c3eaa24c THC01             DenBosch           2268878443                   8
+a590ff80-345d-430e-bd55-f25b5f5fcb7d 493e46ef-a9e2-42b6-8382-2e95e5ae6a92            10 a1dbed79-3886-4db5-9b0c-a2d0416b7e34 EV1       577e2916-6124-412b-bc89-bdf3c3eaa24c THC01             DenBosch           2268404682                   9
+a590ff80-345d-430e-bd55-f25b5f5fcb7d 493e46ef-a9e2-42b6-8382-2e95e5ae6a92            11 a1dbed79-3886-4db5-9b0c-a2d0416b7e34 EV1       577e2916-6124-412b-bc89-bdf3c3eaa24c THC01             DenBosch           2268079562                  10
+a590ff80-345d-430e-bd55-f25b5f5fcb7d 493e46ef-a9e2-42b6-8382-2e95e5ae6a92            12 a1dbed79-3886-4db5-9b0c-a2d0416b7e34 EV1       577e2916-6124-412b-bc89-bdf3c3eaa24c THC01             DenBosch           2268942282                  11
+a590ff80-345d-430e-bd55-f25b5f5fcb7d 493e46ef-a9e2-42b6-8382-2e95e5ae6a92            13 a1dbed79-3886-4db5-9b0c-a2d0416b7e34 EV1       577e2916-6124-412b-bc89-bdf3c3eaa24c THC01             DenBosch           2268636922                  12
+a590ff80-345d-430e-bd55-f25b5f5fcb7d 493e46ef-a9e2-42b6-8382-2e95e5ae6a92            14 a1dbed79-3886-4db5-9b0c-a2d0416b7e34 EV1       577e2916-6124-412b-bc89-bdf3c3eaa24c THC01             DenBosch           2268756556                  13
+a590ff80-345d-430e-bd55-f25b5f5fcb7d 493e46ef-a9e2-42b6-8382-2e95e5ae6a92            15 a1dbed79-3886-4db5-9b0c-a2d0416b7e34 EV1       577e2916-6124-412b-bc89-bdf3c3eaa24c THC01             DenBosch           2268842951                  14
+a590ff80-345d-430e-bd55-f25b5f5fcb7d 493e46ef-a9e2-42b6-8382-2e95e5ae6a92            16 a1dbed79-3886-4db5-9b0c-a2d0416b7e34 EV1       577e2916-6124-412b-bc89-bdf3c3eaa24c THC01             DenBosch           2268816294                  15
+a590ff80-345d-430e-bd55-f25b5f5fcb7d 493e46ef-a9e2-42b6-8382-2e95e5ae6a92            17 a1dbed79-3886-4db5-9b0c-a2d0416b7e34 EV1       577e2916-6124-412b-bc89-bdf3c3eaa24c THC01             DenBosch           2268796462                  16
+a590ff80-345d-430e-bd55-f25b5f5fcb7d 493e46ef-a9e2-42b6-8382-2e95e5ae6a92            18 a1dbed79-3886-4db5-9b0c-a2d0416b7e34 EV1       577e2916-6124-412b-bc89-bdf3c3eaa24c THC01             DenBosch           2268911440                  17
+a590ff80-345d-430e-bd55-f25b5f5fcb7d 493e46ef-a9e2-42b6-8382-2e95e5ae6a92            19 a1dbed79-3886-4db5-9b0c-a2d0416b7e34 EV1       577e2916-6124-412b-bc89-bdf3c3eaa24c THC01             DenBosch           2269060870                  18
+a590ff80-345d-430e-bd55-f25b5f5fcb7d 493e46ef-a9e2-42b6-8382-2e95e5ae6a92            20 a1dbed79-3886-4db5-9b0c-a2d0416b7e34 EV1       577e2916-6124-412b-bc89-bdf3c3eaa24c THC01             DenBosch           2269025725                  19
+a590ff80-345d-430e-bd55-f25b5f5fcb7d 493e46ef-a9e2-42b6-8382-2e95e5ae6a92            21 a1dbed79-3886-4db5-9b0c-a2d0416b7e34 EV1       577e2916-6124-412b-bc89-bdf3c3eaa24c THC01             DenBosch           2269093583                  20
+a590ff80-345d-430e-bd55-f25b5f5fcb7d 493e46ef-a9e2-42b6-8382-2e95e5ae6a92            22 a1dbed79-3886-4db5-9b0c-a2d0416b7e34 EV1       577e2916-6124-412b-bc89-bdf3c3eaa24c THC01             DenBosch           2269065944                  21
+a590ff80-345d-430e-bd55-f25b5f5fcb7d 493e46ef-a9e2-42b6-8382-2e95e5ae6a92            23 a1dbed79-3886-4db5-9b0c-a2d0416b7e34 EV1       577e2916-6124-412b-bc89-bdf3c3eaa24c THC01             DenBosch           2268917978                  22
+a590ff80-345d-430e-bd55-f25b5f5fcb7d 493e46ef-a9e2-42b6-8382-2e95e5ae6a92            24 a1dbed79-3886-4db5-9b0c-a2d0416b7e34 EV1       577e2916-6124-412b-bc89-bdf3c3eaa24c THC01             DenBosch           2268947052                  23
+a590ff80-345d-430e-bd55-f25b5f5fcb7d 493e46ef-a9e2-42b6-8382-2e95e5ae6a92            25 a1dbed79-3886-4db5-9b0c-a2d0416b7e34 EV1       577e2916-6124-412b-bc89-bdf3c3eaa24c THC01             DenBosch           2268941022                  24
+a590ff80-345d-430e-bd55-f25b5f5fcb7d 493e46ef-a9e2-42b6-8382-2e95e5ae6a92            26 a1dbed79-3886-4db5-9b0c-a2d0416b7e34 EV1       577e2916-6124-412b-bc89-bdf3c3eaa24c THC01             DenBosch           2274084118                  25
+a590ff80-345d-430e-bd55-f25b5f5fcb7d 493e46ef-a9e2-42b6-8382-2e95e5ae6a92            27 a1dbed79-3886-4db5-9b0c-a2d0416b7e34 EV1       577e2916-6124-412b-bc89-bdf3c3eaa24c THC01             DenBosch           2278603468                  26
 
 
-We found 1 safesets
 
-id                                   agentId                              name description type      lastAttemptedBackupStatus lastAttemptedB
-                                                                                                                               ackupTimeUtc
---                                   -------                              ---- ----------- ----      ------------------------- --------------
-0e6746e5-0361-47ea-b04e-f58be9c07cb8 5efcd583-9fb3-42d1-8f69-4d5b07a60995 PFC              LocalFile Overdue                   2018-11-10T...
-
+vaultId                              jobId                                safesetNumber agentId                              agentName vaultComputerId                      customerShortName customerLocation serialNumber parentSafesetNumber
+-------                              -----                                ------------- -------                              --------- ---------------                      ----------------- ---------------- ------------ -------------------
+a590ff80-345d-430e-bd55-f25b5f5fcb7d 4f61e4de-50f2-4229-a60f-757991474f81             1 9ca73a73-1842-40d7-b9cd-6f5b83c3605e ORA16     e3fb89ee-5333-42bb-aa53-d242f2bfd226 THC01             DenBosch           3351688135                   0
+a590ff80-345d-430e-bd55-f25b5f5fcb7d 4f61e4de-50f2-4229-a60f-757991474f81             2 9ca73a73-1842-40d7-b9cd-6f5b83c3605e ORA16     e3fb89ee-5333-42bb-aa53-d242f2bfd226 THC01             DenBosch           2764008692                   1
 
 
-id                                   agentId                              name description type      lastAttemptedBackupStatus lastAttemptedB
-                                                                                                                               ackupTimeUtc
---                                   -------                              ---- ----------- ----      ------------------------- --------------
-0e6746e5-0361-47ea-b04e-f58be9c07cb8 5efcd583-9fb3-42d1-8f69-4d5b07a60995 PFC              LocalFile Overdue                   2018-11-10T...
-PS C:\Users\Administrator\Documents\WindowsPowerShell\Scripts\pAPI> $collection
-
-
-id                                   : 0e6746e5-0361-47ea-b04e-f58be9c07cb8
-agentId                              : 5efcd583-9fb3-42d1-8f69-4d5b07a60995
-name                                 : PFC
-description                          :
-type                                 : LocalFile
-lastAttemptedBackupStatus            : Overdue
-lastAttemptedBackupTimeUtc           : 2018-11-10T18:34:34.8Z
-lastCompletedBackupTimeUtc           : 2018-11-10T18:34:34.8Z
-lastCompletedBackupOriginalSizeBytes : 22294
-vaultComputerId                      : 65b5eab3-a2a8-45ca-97af-77c9302a2142
-jobInfoInVaults                      : {@{vaultId=71dfc97b-8204-480f-ad39-b007c8c9b913; customerShortName=; customerLocation=; enabled=;
-                                       suspect=; usedPoolSize=; physicalPoolSize=; activeOperatigMode=; baseOperatingMode=;
-                                       restoresafesets=System.Object[]}}
+PS C:\Users\Administrator\Documents\WindowsPowerShell\Scripts\pAPI>
 #>
 
 
