@@ -6,7 +6,7 @@ On this hostname "papi16.test.local" https://papi16.test.local/monitoring/swagge
 #>
 #Requires -Version 5
 $token = (C:\Users\Administrator\Documents\WindowsPowerShell\Scripts\pAPI\Get-Token.ps1)
-$url = 'https://mohamed.test.local/monitoring/agents?$count=true'
+$url = 'https://papi16.test.local/monitoring/agents?$count=true'
 $headers = @{"Authorization"="Bearer $token";"Accept"="application/json;api-version=1"}
 $reply = Invoke-RestMethod -Uri $url -Method GET -Headers $headers
 
