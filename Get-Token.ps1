@@ -4,9 +4,9 @@ From: Thierry Cailleau  pAPI 1.5 installation includes Keycloak for OAuth2 Authe
 Carbonite Server Backup API Client v1.0 - User Guide.pdf
 #>
 #Requires -Version 5
-$url = 'https://papi16.test.local:8081/auth/realms/carbonite-monitoring/protocol/openid-connect/token'
+$url = 'https://tcportal9:8081/auth/realms/carbonite-monitoring/protocol/openid-connect/token'
 $headers = @{"Content-Type" = "application/x-www-form-urlencoded";"cache-control"="no-cache"}
-$body = "client_id=APIadmin&grant_type=client_credentials&client_secret=f2a18478-70dd-4d67-bea6-b9ddee03b180&undefined="
+$body = "client_id=APIadmin&grant_type=client_credentials&client_secret=pfpyLnpX/gQE8YGA4K09WDYtDZAqkHk5ZN3e3HfBYp7u"
 $reply = Invoke-RestMethod -Uri $url -Method Post -Body $body -Headers $headers
 Write-Output $reply.'access_token'
 
