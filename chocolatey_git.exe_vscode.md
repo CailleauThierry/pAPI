@@ -1,6 +1,10 @@
 chocolatey_git.exe_vscode.md
-Edited: 05_06_2020
+Edited: 06_20_2023
 Author: Thiery Cailleau
+
+Best now is to edit the git.exe installed by GitHubDesktop in the System Path of the Environment Variables
+
+C:\Users\Administrator\AppData\Local\GitHubDesktop\app-3.2.4\resources\app\git\cmd
 
 chocolatey -----------------------
 
