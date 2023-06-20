@@ -6,7 +6,7 @@ Carbonite Server Backup API Client v1.0 - User Guide.pdf
 #Requires -Version 5
 $url = 'https://tcportal9:8081/auth/realms/carbonite-monitoring/protocol/openid-connect/token'
 $headers = @{"Content-Type" = "application/x-www-form-urlencoded";"cache-control"="no-cache"}
-$body = "client_id=APIadmin&grant_type=client_credentials&client_secret=pfpyLnpX/gQE8YGA4K09WDYtDZAqkHk5ZN3e3HfBYp7u"
+$body = "client_id=APIadmin&grant_type=client_credentials&client_secret=e426f8aa-632c-4157-8477-9398369fd358"
 $reply = Invoke-RestMethod -Uri $url -Method Post -Body $body -Headers $headers
 Write-Output $reply.'access_token'
 
