@@ -2,16 +2,16 @@
 Get-Vault.ps1 v 0.0.0.1 on 11/19/2018
 From: Thierry Cailleau requires pAPI 1.3 . Its swagger API documentation is available under:
 https://Your_API_Server/monitoring/swaggerui/index > Vault > Expand Operations > Model
-On this hostname "papi16.test.local" https://papi16.test.local/monitoring/swaggerui/index
+On this hostname "10.9.168.97" https://10.9.168.97/monitoring/swaggerui/index
 Assumes you have registered the Vault to pAPI (during 8.40 upgrade or after from the cmd.exe as per Carbonite Director v8.4 - Install Guide.pdf:
 
-C:\Director\ReportingService>.\ReportingService.exe -cmdline -register -uri https://papi16.test.local:8080 -id Carbonite-Registration-Client -secret pEa4e4rjEfpmGLbZVqQnejVvfpa1o+s+cSeDIfTS9McH
+C:\Director\ReportingService>.\ReportingService.exe -cmdline -register -uri https://10.9.168.97:8080 -id Carbonite-Registration-Client -secret pEa4e4rjEfpmGLbZVqQnejVvfpa1o+s+cSeDIfTS9McH
 
 Registered vault)
 #>
 #Requires -Version 5
 $token = (C:\Users\Administrator\Documents\WindowsPowerShell\Scripts\pAPI\Get-Token.ps1)
-$url = 'https://papi16.test.local/monitoring/vaults?$count=true'
+$url = 'https://10.9.168.97/monitoring/vaults?$count=true'
 $headers = @{"Authorization"="Bearer $token";"Accept"="application/json;api-version=1"}
 $reply = Invoke-RestMethod -Uri $url -Method GET -Headers $headers
 
@@ -48,7 +48,7 @@ PS C:\Users\Administrator\Documents\WindowsPowerShell\Scripts\pAPI>
 
 C:\Users\Administrator\Documents\WindowsPowerShell\Scripts\pAPI\Get-Vault_results.ps1.json:
 {
-    "@odata.context":  "https://papi16.test.local/monitoring/$metadata#vaults",
+    "@odata.context":  "https://10.9.168.97/monitoring/$metadata#vaults",
     "@odata.count":  1,
     "value":  [
                   {

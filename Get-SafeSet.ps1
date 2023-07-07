@@ -2,7 +2,7 @@
 Get-Safeset.ps1 v 0.0.0.2 on 12/20/2021
 From: Thierry Cailleau requires pAPI 1.5 . Its swagger API documentation is available under:
 https://Your_API_Server/monitoring/swaggerui/index > Safeset > Expand Operations > Model
-On this hostname "papi16" https://papi16.test.local/monitoring/swaggerui/index
+On this hostname "papi16" https://10.9.168.97/monitoring/swaggerui/index
 Assumes you have registered the Vault to pAPI (dunring 8.40 upgrade or after from the cmd.exe as per Carbonite Director v8.4 - Install Guide.pdf:
 
 C:\Director\ReportingService>.\ReportingService.exe -cmdline -register -uri https://sys3:8080 -id Carbonite-Registration-Client -secret fHYQA1byZ/X9Vb0psP62TLDA1VO38I1k5BOjJSbDkcNb
@@ -10,7 +10,7 @@ Registered vault)
 #>
 #Requires -Version 5
 $token = (C:\Users\Administrator\Documents\WindowsPowerShell\Scripts\pAPI\Get-Token.ps1)
-$url = 'https://papi16.test.local/monitoring/safesets?$count=true'
+$url = 'https://10.9.168.97/monitoring/safesets?$count=true'
 $headers = @{"Authorization"="Bearer $token";"Accept"="application/json;api-version=1"}
 $reply = Invoke-RestMethod -Uri $url -Method GET -Headers $headers
 

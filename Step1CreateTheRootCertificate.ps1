@@ -1,5 +1,5 @@
 ﻿#The following script is based on the info from https://infiniteloop.io/powershell-self-signed-certificate-via-self-signed-root-ca/
-#Replace the DnsName "SRVpAPI.yourdomain.com" with the FQDN of the server you want to create the certificate for
+#Replace the DnsName "SRVpAPI.yourdomain.com" with the FQDN or IP of the server you want to create the certificate for
 #Replace the DnsName "My Root CA" with whichever name you wish to use as the Root CA
 #The password for the certificate is 3Vlt1nc.  This can be changed to whatever password you like
 #Note: the machine using a login with administrative rights and enroll for the certificate again. From <https://knowledge.digicert.com/solution/SO5850.html>
@@ -18,7 +18,7 @@ $rootCA = New-SelfSignedCertificate @params
 
 #Step 2 - Create the server cert signed by the new root
 $params = @{
-  DnsName = "PAPI16.test.local"
+  DnsName = "10.9.168.97"
   Signer = $rootCA
   KeyLength = 2048
   KeyAlgorithm = 'RSA'
