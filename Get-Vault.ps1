@@ -18,6 +18,7 @@ $reply = Invoke-RestMethod -Uri $url -Method GET -Headers $headers
 $count = $reply.'@odata.count'
 $collection = $reply.value
 
+$collection | Format-Table -AutoSize
 $reply | ConvertTo-Json -Depth 4 | Out-File -FilePath C:\Users\Administrator\Documents\WindowsPowerShell\Scripts\pAPI\Get-Vault_results.ps1.json
 
 Write-Output "We found $count vaults"
@@ -26,22 +27,20 @@ $collection | Where-Object {$_.vaultNodesInfo.hostname -eq 'ev1'} | Format-Table
 $collection | Where-Object {$_.vaultLicenseInfo.status -eq 'Activated'} | Format-Table -AutoSize
 
 <#
-PS C:\Users\Administrator\Documents\WindowsPowerShell\Scripts\pAPI> c:\Users\Administrator\Documents\WindowsPowerShell\Scripts\pAPI\Get-Vault.ps1
+PS C:\Users\Administrator\Documents\WindowsPowerShell\Scripts\pAPI> . 'C:\Users\Administrator\Documents\WindowsPowerShell\Scripts\pAPI\Get-Vault.ps1'
+
+id                                   vaultType     isCluster maintenanceStatus replicationTarget                    replication1To1Enabled replicationNTo1Enabled da
+                                                                                                                                                                  ta
+                                                                                                                                                                  ba
+                                                                                                                                                                  se
+                                                                                                                                                                  St
+                                                                                                                                                                  at
+                                                                                                                                                                  us
+--                                   ---------     --------- ----------------- -----------------                    ---------------------- ---------------------- --
+24d02310-ba6f-41f0-ad69-75f9dd9acae2 {BAV, Active}     False Enabled           ccaf072d-2df8-46f7-aa55-0afb21ad49a8                   True                   True Ru
+
+
 We found 1 vaults
-
-id                                   vaultType    isCluster maintenanceStatus replicationTarget replication1To1Enabled replicationNTo1Enabled databaseStatus numReplicationSessions numReplica
-                                                                                                                                                                                    tionEvents
---                                   ---------    --------- ----------------- ----------------- ---------------------- ---------------------- -------------- ---------------------- ----------
-a590ff80-345d-430e-bd55-f25b5f5fcb7d {Standalone}     False Enabled                                               True                   True Running                             0          0
-
-
-
-id                                   vaultType    isCluster maintenanceStatus replicationTarget replication1To1Enabled replicationNTo1Enabled databaseStatus numReplicationSessions numReplica
-                                                                                                                                                                                    tionEvents
---                                   ---------    --------- ----------------- ----------------- ---------------------- ---------------------- -------------- ---------------------- ----------
-a590ff80-345d-430e-bd55-f25b5f5fcb7d {Standalone}     False Enabled                                               True                   True Running                             0          0
-
-
 PS C:\Users\Administrator\Documents\WindowsPowerShell\Scripts\pAPI>
 #>
 <# 

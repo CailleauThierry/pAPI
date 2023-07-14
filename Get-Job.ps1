@@ -15,25 +15,27 @@ $collection = $reply.value
 
 Write-Output "We found $count jobs"
 
-$collection | Where-Object {$_.name -eq 'OraBackup'} | Format-Table -AutoSize
-$collection | Where-Object {$_.agentId -eq 'a1dbed79-3886-4db5-9b0c-a2d0416b7e34'} | Format-Table -AutoSize
+$collection | Format-List *
+$collection | Where-Object {$_.name -eq 'EVRdb'} | Format-Table -AutoSize
+$collection | Where-Object {$_.agentId -eq 'f7836a6f-ec9c-4f98-9625-49f198b9aca5'} | Format-Table -AutoSize
 
 <#
-PS C:\Users\Administrator\Documents\WindowsPowerShell\Scripts\pAPI> c:\Users\Administrator\Documents\WindowsPowerShell\Scripts\pAPI\Get-Job.ps1
-We found 2 jobs
+PS C:\Users\Administrator\Documents\WindowsPowerShell\Scripts\pAPI> . 'C:\Users\Administrator\Documents\WindowsPowerShell\Scripts\pAPI\Get-Job.ps1'
+We found 14 jobs
 
-id                                   agentId                              name      description type   lastAttemptedBackupStatus lastAtt
-                                                                                                                                 emptedB
-                                                                                                                                 ackupTi
-                                                                                                                                 meUtc
---                                   -------                              ----      ----------- ----   ------------------------- -------
-4f61e4de-50f2-4229-a60f-757991474f81 9ca73a73-1842-40d7-b9cd-6f5b83c3605e OraBackup             Oracle CompletedWithErrors       2021...
-
+id                                   agentId                              name  description type          lastAttemptedBackupStatus lastAttemptedBackupTimeUtc lastCompletedBackupTimeUtc lastCompletedBa
+                                                                                                                                                                                          ckupOriginalSiz
+                                                                                                                                                                                                   eBytes
+--                                   -------                              ----  ----------- ----          ------------------------- -------------------------- -------------------------- ---------------
+501ee86b-54d4-4c8b-933a-58e8a54fbbe1 278f7fbc-e933-4881-a444-c6f71c5ba6e9 EVRdb             SqlServer2012 Overdue                   2022-12-09T18:33:56.37Z    2022-12-09T18:33:56.37Z           83886432
 
 
-id                                   agentId                              name           description type      lastAttemptedBackupStatus
---                                   -------                              ----           ----------- ----      -------------------------
-493e46ef-a9e2-42b6-8382-2e95e5ae6a92 a1dbed79-3886-4db5-9b0c-a2d0416b7e34 VaultWorkspace             LocalFile Overdue
+
+id                                   agentId                              name         description type      lastAttemptedBackupStatus lastAttemptedBackupTimeUtc lastCompletedBackupTimeUtc lastComplete
+                                                                                                                                                                                             dBackupOrigi
+                                                                                                                                                                                             nalSizeBytes
+--                                   -------                              ----         ----------- ----      ------------------------- -------------------------- -------------------------- ------------
+6d4968e8-0fef-4288-bce9-7c2356b0d664 f7836a6f-ec9c-4f98-9625-49f198b9aca5 ERRORLOGdot1             LocalFile Overdue                   2022-10-20T21:24:58.1Z     2022-10-20T21:24:58.1Z            19974
 
 
 PS C:\Users\Administrator\Documents\WindowsPowerShell\Scripts\pAPI>

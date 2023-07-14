@@ -19,8 +19,9 @@ $collection = $reply.value
 
 Write-Output "We found $count safesets"
 
+$collection | Format-List *
 $collection | Where-Object {$_.agentName -eq 'EV1'} | Format-Table -AutoSize
-$collection | Where-Object {$_.jobId -eq '4f61e4de-50f2-4229-a60f-757991474f81'} | Format-Table -AutoSize
+$collection | Where-Object {$_.jobId -eq '6d4968e8-0fef-4288-bce9-7c2356b0d664'} | Format-Table -AutoSize
 
 <#
 PS C:\Users\Administrator\Documents\WindowsPowerShell\Scripts\pAPI> c:\Users\Administrator\Documents\WindowsPowerShell\Scripts\pAPI\Get-SafeSet.ps1

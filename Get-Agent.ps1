@@ -15,6 +15,7 @@ $collection = $reply.value
 
 Write-Output "We found $count agents"
 
+$collection | Format-Table -AutoSize
 $collection | Where-Object {$_.Name -eq 'ev1'} | Format-Table -AutoSize
 $collection | Where-Object {$_.availability -eq 'offline'} | Format-Table -AutoSize
 
