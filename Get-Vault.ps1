@@ -10,7 +10,7 @@ C:\Director\ReportingService>.\ReportingService.exe -cmdline -register -uri http
 Registered vault)
 #>
 #Requires -Version 5
-$token = (C:\Users\Administrator\Documents\WindowsPowerShell\Scripts\pAPI\Get-Token.ps1)
+$token = (. $env:HOMEPATH\Documents\WindowsPowerShell\Scripts\pAPI\Get-Token.ps1)
 $url = 'https://10.9.168.97/monitoring/vaults?$count=true'
 $headers = @{"Authorization"="Bearer $token";"Accept"="application/json;api-version=1"}
 $reply = Invoke-RestMethod -Uri $url -Method GET -Headers $headers
@@ -18,13 +18,16 @@ $reply = Invoke-RestMethod -Uri $url -Method GET -Headers $headers
 $count = $reply.'@odata.count'
 $collection = $reply.value
 
-$collection | Format-Table -AutoSize
-$reply | ConvertTo-Json -Depth 4 | Out-File -FilePath C:\Users\Administrator\Documents\WindowsPowerShell\Scripts\pAPI\Get-Vault_results.ps1.json
+$ResultFileJSON = New-Item -ItemType File -Path "$env:HOMEPATH\Documents\WindowsPowerShell\Output\pAPI\Get-Vault_results.ps1.json" -Force
 
+$collection | Format-Table -AutoSize
+$reply | ConvertTo-Json -Depth 4 | Out-File -FilePath $ResultFileJSON
+notepad $ResultFileJSON
 Write-Output "We found $count vaults"
 
-$collection | Where-Object {$_.vaultNodesInfo.hostname -eq 'ev1'} | Format-Table -AutoSize
-$collection | Where-Object {$_.vaultLicenseInfo.status -eq 'Activated'} | Format-Table -AutoSize
+$collection | Where-Object {$_.vaultNodesInfo.hostname -eq 'TCD1'} | Format-Table -AutoSize
+$collection | Where-Object {$_.vaultNodesInfo.hostname -eq 'TCD1'} | Format-List *
+$collection | Where-Object {$_.vaultLicenseInfo.usingPerCustomerQuotas -eq 'true'} | Format-Table -AutoSize
 
 <#
 PS C:\Users\Administrator\Documents\WindowsPowerShell\Scripts\pAPI> . 'C:\Users\Administrator\Documents\WindowsPowerShell\Scripts\pAPI\Get-Vault.ps1'
