@@ -5,7 +5,7 @@ https://Your_API_Server/monitoring/swaggerui/index > Job > Expand Operations > M
 On this hostname "papi16" https://10.9.168.97/monitoring/swaggerui/index
 #>
 #Requires -Version 5
-$token = (C:\Users\Administrator\Documents\WindowsPowerShell\Scripts\pAPI\Get-Token.ps1)
+$token = (. $env:HOMEPATH\Documents\WindowsPowerShell\Scripts\pAPI\Get-Token.ps1)
 $url = 'https://10.9.168.97/monitoring/jobs?$count=true'
 $headers = @{"Authorization"="Bearer $token";"Accept"="application/json;api-version=1"}
 $reply = Invoke-RestMethod -Uri $url -Method GET -Headers $headers
@@ -18,6 +18,12 @@ Write-Output "We found $count jobs"
 $collection | Format-List *
 $collection | Where-Object {$_.name -eq 'EVRdb'} | Format-Table -AutoSize
 $collection | Where-Object {$_.agentId -eq 'f7836a6f-ec9c-4f98-9625-49f198b9aca5'} | Format-Table -AutoSize
+
+# Displaying the ERROLOG task Size in KB:
+
+$SizeInKB = (($collection | Where-Object {$_.Name -eq "ERRORLOG"} | Select-Object -ExpandProperty jobInfoInVaults | Select-Object physicalPoolSize).physicalPoolSize)/1KB
+
+Write-Output "ERRORLOG size in KB is: $SizeInKB"
 
 <#
 PS C:\Users\Administrator\Documents\WindowsPowerShell\Scripts\pAPI> . 'C:\Users\Administrator\Documents\WindowsPowerShell\Scripts\pAPI\Get-Job.ps1'
