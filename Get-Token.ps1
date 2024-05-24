@@ -3,6 +3,8 @@ Get-Token.ps1 v 0.0.0.2 on 04/25/2018
 From: Thierry Cailleau  pAPI 1.5 installation includes Keycloak for OAuth2 Authentication. Documentation available under:
 Carbonite Server Backup API Client v1.0 - User Guide.pdf
 #>
+### Force TLS1.2
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 #Requires -Version 5
 $url = 'https://10.9.168.97:8081/auth/realms/carbonite-monitoring/protocol/openid-connect/token'
 $headers = @{"Content-Type" = "application/x-www-form-urlencoded";"cache-control"="no-cache"}

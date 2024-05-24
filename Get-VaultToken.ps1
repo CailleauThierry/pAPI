@@ -3,7 +3,11 @@ Get-Job.ps1 v 0.0.0.1 on 11/19/2018
 From: Thierry Cailleau  pAPI 1.3 installation includes Keycloak for OAuth2 Authetication. Documentation available under:
 Carbonite Server Backup API - Monitoring v1.3 - Installation Guide.pdf
 #>
+### Force TLS1.2
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+
 #Requires -Version 5
+
 $url = 'https://10.9.168.97:8081/auth/realms/carbonite-monitoring/protocol/openid-connect/token'
 $headers = @{"Content-Type" = "application/x-www-form-urlencoded";"cache-control"="no-cache"}
 $body = "client_id=APIadmin&grant_type=client_credentials&client_secret=47fe88b7-a4cc-4bb0-8411-f4d15773c180&undefined="

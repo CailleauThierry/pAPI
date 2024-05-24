@@ -4,6 +4,8 @@ From: Thierry Cailleau requires pAPI 1.5 . Its swagger API documentation is avai
 https://Your_API_Server/monitoring/swaggerui/index > Agent > Expand Operations > Model
 On this hostname "10.9.168.97" https://10.9.168.97/monitoring/swaggerui/index
 #>
+### Force TLS1.2
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 #Requires -Version 5
 $token = (C:\Users\Administrator\Documents\WindowsPowerShell\Scripts\pAPI\Get-Token.ps1)
 $url = 'https://10.9.168.97/monitoring/agents?$count=true'

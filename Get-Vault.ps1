@@ -9,6 +9,8 @@ C:\Director\ReportingService>.\ReportingService.exe -cmdline -register -uri http
 
 Registered vault)
 #>
+### Force TLS1.2
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 #Requires -Version 5
 $token = (. $env:HOMEPATH\Documents\WindowsPowerShell\Scripts\pAPI\Get-Token.ps1)
 $url = 'https://10.9.168.97/monitoring/vaults?$count=true'

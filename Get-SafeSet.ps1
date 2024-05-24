@@ -8,6 +8,8 @@ Assumes you have registered the Vault to pAPI (dunring 8.40 upgrade or after fro
 C:\Director\ReportingService>.\ReportingService.exe -cmdline -register -uri https://sys3:8080 -id Carbonite-Registration-Client -secret fHYQA1byZ/X9Vb0psP62TLDA1VO38I1k5BOjJSbDkcNb
 Registered vault)
 #>
+### Force TLS1.2
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 #Requires -Version 5
 $token = (. $env:HOMEPATH\Documents\WindowsPowerShell\Scripts\pAPI\Get-Token.ps1)
 $url = 'https://10.9.168.97/monitoring/safesets?$count=true'
